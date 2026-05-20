@@ -1,0 +1,29 @@
+{
+  "name": "gestion-de-hoteles",
+  "version": "1.0.0",
+  "description": "Aplicación de gestión de hoteles tipo Trivago.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guanaco-com-ar/Gestion-de-Hoteles.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/guanaco-com-ar/Gestion-de-Hoteles/issues"
+  },
+  "homepage": "https://github.com/guanaco-com-ar/Gestion-de-Hoteles#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
