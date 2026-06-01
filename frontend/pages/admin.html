@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Administrador Hoteles</title>
+
+   <link rel="stylesheet" href="/styles/admin.css">
+
+</head>
+
+<body>
+
+    <h1>Panel de Hoteles</h1>
+
+    <form id="hotelForm">
+
+        <input
+            type="text"
+            id="nombre"
+            placeholder="Nombre"
+            required
+        >
+
+        <input
+            type="text"
+            id="localizacion"
+            placeholder="Localización"
+            required
+        >
+
+        <input
+            type="number"
+            id="habitaciones"
+            placeholder="Habitaciones"
+            required
+        >
+
+        <input
+            type="text"
+            id="imagen"
+            placeholder="URL Imagen"
+        >
+
+        <textarea
+            id="descripcion"
+            placeholder="Descripción"
+        ></textarea>
+
+        <button type="submit">
+            Crear Hotel
+        </button>
+
+    </form>
+
+    <hr>
+
+    <div id="listaHoteles"></div>
+
+    <script src="/pages/pagesJS/admin.js"></script>
+
+</body>
+</html>
