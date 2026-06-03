@@ -1,63 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador Hoteles</title>
-
-   <link rel="stylesheet" href="/styles/admin.css">
-
+    <link rel="stylesheet" href="../styles/admin.css">
 </head>
-
 <body>
 
-    <h1>Panel de Hoteles</h1>
+<div class="page-wrapper">
 
-    <form id="hotelForm">
+    <!-- Header -->
+    <header class="page-header">
+        <div class="page-header-left">
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/>
+                </svg>
+            </div>
+            <div>
+                <h1>Gestión de Hoteles</h1>
+                <p>Administrá tu cartera de propiedades</p>
+            </div>
+        </div>
+    </header>
 
-        <input
-            type="text"
-            id="nombre"
-            placeholder="Nombre"
-            required
-        >
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="label">Hoteles</div>
+            <div class="value" id="statHoteles">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Habitaciones</div>
+            <div class="value" id="statHabitaciones">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Promedio hab.</div>
+            <div class="value" id="statPromedio">—</div>
+        </div>
+    </div>
 
-        <input
-            type="text"
-            id="localizacion"
-            placeholder="Localización"
-            required
-        >
+    <!-- Form -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <span class="dot"></span>
+            <h2>Nuevo hotel</h2>
+        </div>
 
-        <input
-            type="number"
-            id="habitaciones"
-            placeholder="Habitaciones"
-            required
-        >
+        <form id="hotelForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Ej: Hotel Palermo" required>
+                </div>
 
-        <input
-            type="text"
-            id="imagen"
-            placeholder="URL Imagen"
-        >
+                <div class="form-group">
+                    <label for="localizacion">Localización</label>
+                    <input type="text" id="localizacion" placeholder="Ej: Buenos Aires" required>
+                </div>
 
-        <textarea
-            id="descripcion"
-            placeholder="Descripción"
-        ></textarea>
+                <div class="form-group">
+                    <label for="habitaciones">Habitaciones</label>
+                    <input type="number" id="habitaciones" placeholder="Ej: 80" min="1" required>
+                </div>
 
-        <button type="submit">
-            Crear Hotel
-        </button>
+                <div class="form-group">
+                    <label for="imagen">URL imagen</label>
+                    <input type="text" id="imagen" placeholder="https://...">
+                </div>
 
-    </form>
+                <div class="form-group full">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" placeholder="Breve descripción del hotel..."></textarea>
+                </div>
+            </div>
 
-    <hr>
+            <div class="form-actions">
+                <button type="reset" class="btn btn-ghost">Cancelar</button>
+                <button type="submit" class="btn btn-primary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Crear hotel
+                </button>
+            </div>
+        </form>
+    </div>
 
-    <div id="listaHoteles"></div>
+    <!-- List -->
+    <div>
+        <div class="list-header">
+            <h2>Hoteles registrados</h2>
+            <span class="count" id="countLabel">0 propiedades</span>
+        </div>
+        <div id="listaHoteles"></div>
+    </div>
 
-    <script src="/pages/pagesJS/admin.js"></script>
+</div>
 
+<script src="/pages/pagesJS/admin.js"></script>
 </body>
 </html>
