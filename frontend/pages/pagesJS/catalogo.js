@@ -4,23 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function cargarCatalogoCompleto() {
     const cardsContainer = document.getElementById("cards-container");
-    
     if (!cardsContainer) return; 
 
     cardsContainer.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #666;'>Cargando catálogo disponible...</p>";
 
     try {
         const response = await fetch("/api/hoteles");
-        
-        if (!response.ok) {
-            throw new Error(`Error en el servidor: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
 
         const hoteles = await response.json();
         cardsContainer.innerHTML = "";
 
         if (hoteles.length === 0) {
-            cardsContainer.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No hay alojamientos cargados actualmente.</p>";
+            cardsContainer.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No hay alojamientos disponibles.</p>";
             return;
         }
 
@@ -37,16 +33,17 @@ async function cargarCatalogoCompleto() {
                     <p>📍 ${hotel.localizacion}</p>
                     <p>🛏️ ${hotel.cantidad_habitaciones} Hab.</p>
                     
+                    <!-- Campo de descripción -->
+                    <p class="hotel-desc">${hotel.descripcion || 'Sin descripción disponible.'}</p>
+                    
+                    <div class="price">$${hotel.precio || '---'} USD</div>
                     <button class="btn-reservar" onclick="event.stopPropagation();">Reservar ahora</button>
                 </div>
             `;
 
             card.addEventListener("click", () => {
-                const tarjetaExpandidaAnterior = document.querySelector(".card.expanded");
-                if (tarjetaExpandidaAnterior && tarjetaExpandidaAnterior !== card) {
-                    tarjetaExpandidaAnterior.classList.remove("expanded");
-                }
-
+                const anterior = document.querySelector(".card.expanded");
+                if (anterior && anterior !== card) anterior.classList.remove("expanded");
                 card.classList.toggle("expanded");
             });
 
@@ -54,12 +51,7 @@ async function cargarCatalogoCompleto() {
         });
 
     } catch (error) {
-        console.error("Error al conectar con la base de datos:", error);
-        cardsContainer.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 20px;">
-                <p>⚠️ Hubo un problema al conectar con el servidor.</p>
-                <small>${error.message}</small>
-            </div>
-        `;
+        console.error("Error:", error);
+        cardsContainer.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #ef4444;">Error al conectar con la base de datos.</p>`;
     }
 }

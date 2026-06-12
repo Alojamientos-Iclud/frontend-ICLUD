@@ -94,7 +94,6 @@ nav a.btn-login:hover {
 
 .cards {
   display: grid;
-  /* El mínimo de 200px permite que entren unas 5 tarjetas por fila en pantallas de PC */
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px; 
 }
@@ -114,7 +113,6 @@ nav a.btn-login:hover {
   transform: translateY(-4px);
 }
 
-/* Estado Expandido al hacer Click */
 .card.expanded {
   transform: scale(1.05);
   box-shadow: 0 12px 30px rgba(0, 0, 0, .15);
@@ -123,7 +121,7 @@ nav a.btn-login:hover {
 
 .card img {
   width: 100%;
-  height: 150px; /* Altura compactada */
+  height: 150px; 
   object-fit: cover;
 }
 
@@ -142,6 +140,20 @@ nav a.btn-login:hover {
   margin-bottom: 6px;
 }
 
+/* --- Estilo para la Descripción --- */
+.hotel-desc {
+  font-size: 13px !important;
+  color: #888 !important;
+  display: none; /* Se oculta por defecto para ahorrar espacio */
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.card.expanded .hotel-desc {
+  display: block; /* Solo se muestra al expandir */
+  animation: fadeIn 0.4s ease;
+}
+
 .price {
   color: #2563eb;
   font-size: 20px;
@@ -149,7 +161,6 @@ nav a.btn-login:hover {
   margin-top: 10px;
 }
 
-/* Botón interactivo de Reserva */
 .btn-reservar {
   display: none; 
   width: 100%;
@@ -161,16 +172,15 @@ nav a.btn-login:hover {
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  animation: fadeIn 0.3s ease;
 }
 
 .btn-reservar:hover {
   background: #1d4ed8;
 }
 
-/* Muestra el botón sólo cuando la tarjeta está expandida */
 .card.expanded .btn-reservar {
   display: block;
+  animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -179,223 +189,42 @@ nav a.btn-login:hover {
 }
 
 /* ==========================================================================
-   4. COMPONENTES: MODALES & FORMULARIOS
+   4. MODALES, TOASTS Y RESPONSIVE (Mismos estilos anteriores)
    ========================================================================== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, .65);
-  backdrop-filter: blur(4px);
-  z-index: 2000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .3s;
-}
+.modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .65); backdrop-filter: blur(4px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal { background: #fff; border-radius: 24px; width: 90%; max-width: 440px; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(0, 0, 0, .3); transform: translateY(30px) scale(.97); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; opacity: 0; }
+.modal-overlay.active .modal { transform: translateY(0) scale(1); opacity: 1; }
+.modal-close { position: absolute; top: 18px; right: 22px; font-size: 24px; cursor: pointer; color: #888; background: none; border: none; line-height: 1; transition: color .2s; }
+.modal-close:hover { color: #1e3a8a; }
+.modal-logo { font-size: 26px; font-weight: bold; color: #1e3a8a; margin-bottom: 6px; }
+.modal h2 { font-size: 22px; color: #111; margin-bottom: 4px; }
+.modal-sub { font-size: 14px; color: #888; margin-bottom: 28px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: 13px; font-weight: bold; color: #444; margin-bottom: 6px; }
+.form-group input { width: 100%; padding: 13px 16px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 15px; transition: border-color .2s, box-shadow .2s; outline: none; color: #222; }
+.form-group input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, .12); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.btn-submit { width: 100%; padding: 14px; background: #1e3a8a; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background .3s, transform .15s; margin-top: 6px; }
+.btn-submit:hover { background: #2563eb; transform: translateY(-1px); }
+.modal-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: #bbb; font-size: 13px; }
+.modal-divider::before,.modal-divider::after { content:''; flex:1; height:1px; background:#e5e5e5; }
+.modal-switch { text-align: center; font-size: 14px; color: #666; margin-top: 20px; }
+.modal-switch a { color: #2563eb; font-weight: bold; cursor: pointer; }
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: #111827; color: #fff; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: bold; z-index: 3000; box-shadow: 0 8px 30px rgba(0, 0, 0, .25); transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; opacity: 0; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.success { border-left: 4px solid #22c55e; }
+.toast.error { border-left: 4px solid #ef4444; }
+.form-error { font-size: 12px; color: #ef4444; margin-top: 5px; display: none; }
+.form-error.visible { display: block; }
 
-.modal-overlay.active {
-  opacity: 1;
-  pointer-events: all;
-}
+footer { background: #111827; color: #fff; text-align: center; padding: 30px; margin-top: auto; }
 
-.modal {
-  background: #fff;
-  border-radius: 24px;
-  width: 90%;
-  max-width: 440px;
-  padding: 40px;
-  position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
-  transform: translateY(30px) scale(.97);
-  transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .3s;
-  opacity: 0;
-}
-
-.modal-overlay.active .modal {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-}
-
-.modal-close {
-  position: absolute;
-  top: 18px;
-  right: 22px;
-  font-size: 24px;
-  cursor: pointer;
-  color: #888;
-  background: none;
-  border: none;
-  line-height: 1;
-  transition: color .2s;
-}
-
-.modal-close:hover {
-  color: #1e3a8a;
-}
-
-.modal-logo {
-  font-size: 26px;
-  font-weight: bold;
-  color: #1e3a8a;
-  margin-bottom: 6px;
-}
-
-.modal h2 {
-  font-size: 22px;
-  color: #111;
-  margin-bottom: 4px;
-}
-
-.modal-sub {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 28px;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 13px;
-  font-weight: bold;
-  color: #444;
-  margin-bottom: 6px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 13px 16px;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 10px;
-  font-size: 15px;
-  transition: border-color .2s, box-shadow .2s;
-  outline: none;
-  color: #222;
-}
-
-.form-group input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: #1e3a8a;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background .3s, transform .15s;
-  margin-top: 6px;
-}
-
-.btn-submit:hover {
-  background: #2563eb;
-  transform: translateY(-1px);
-}
-
-.btn-submit:active {
-  transform: translateY(0);
-}
-
-.modal-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 20px 0;
-  color: #bbb;
-  font-size: 13px;
-}
-
-.modal-divider::before,
-.modal-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #e5e5e5;
-}
-
-.modal-switch {
-  text-align: center;
-  font-size: 14px;
-  color: #666;
-  margin-top: 20px;
-}
-
-.modal-switch a {
-  color: #2563eb;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.modal-switch a:hover {
-  text-decoration: underline;
-}
-
-/* ==========================================================================
-   5. COMPONENTES: FEEDBACK DE INTERFAZ (Toasts & Errores)
-   ========================================================================== */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: #111827;
-  color: #fff;
-  padding: 14px 28px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: bold;
-  z-index: 3000;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
-  transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), opacity .3s;
-  opacity: 0;
-}
-
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-}
-
-.toast.success {
-  border-left: 4px solid #22c55e;
-}
-
-.toast.error {
-  border-left: 4px solid #ef4444;
-}
-
-.form-error {
-  font-size: 12px;
-  color: #ef4444;
-  margin-top: 5px;
-  display: none;
-}
-
-.form-error.visible {
-  display: block;
-}
-
-/* ==========================================================================
-   6. FOOTER Y AJUSTES FINALES
-   ========================================================================== */
-footer {
-  background: #111827;
-  color: #fff;
-  text-align: center;
-  padding: 30px;
-  margin-top: auto; 
+@media (max-width: 768px) {
+  header { padding: 20px; flex-direction: column; position: static; }
+  nav { margin-top: 15px; }
+  nav a { margin: 0 10px; font-size: 14px; }
+  .catalogo-container { padding: 40px 20px; }
+  .catalogo-title { font-size: 28px; text-align: center; }
+  .form-row { grid-template-columns: 1fr; }
 }
