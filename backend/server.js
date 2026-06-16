@@ -5,7 +5,7 @@ const path = require("path");
 console.log("Sirviendo estáticos desde:", path.join(__dirname, "../frontend/pages"));
 
 
-const hotelesRouter = require("./routes/hoteles");
+const hotelesRouter = require("./routes/routes");
 
 const app = express();
 
@@ -26,3 +26,5 @@ app.listen(PORT, () => {
 app.listen(PORT, () => {
     console.log(`Servidor iniciado en puerto ${PORT}`);
 });
+
+//

@@ -104,4 +104,9 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+/*
+APIs de metabuscador
+*/
+
 module.exports = router;
+
