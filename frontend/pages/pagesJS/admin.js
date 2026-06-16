@@ -69,13 +69,15 @@ async function cargarHoteles() {
         const div = document.createElement("div");
         div.className = "hotel";
         div.innerHTML = `
+        
             <div class="hotel-icon">${iconoEdificio()}</div>
             <div class="hotel-body">
                 <h3>${hotel.nombre}</h3>
                 <div class="hotel-meta">
-                    <span>${iconoPin()} ${hotel.localizacion}</span>
-                    <span>${iconoPuerta()} ${hotel.cantidad_habitaciones} hab.</span>
-                </div>
+    <span>${iconoPin()} ${hotel.localizacion}</span>
+    <span>${iconoPuerta()} ${hotel.cantidad_habitaciones} hab.</span>
+    <span>💵 $${hotel.precio ?? 0} / noche</span>
+</div>
             </div>
             <span class="badge-active">Activo</span>
             <button class="btn-delete" onclick="eliminarHotel(${hotel.id})" title="Eliminar hotel">
@@ -106,7 +108,8 @@ form.addEventListener("submit", async (e) => {
             localizacion:         document.getElementById("localizacion").value,
             cantidad_habitaciones: document.getElementById("habitaciones").value,
             imagen_h:             document.getElementById("imagen").value,
-            descripcion:          document.getElementById("descripcion").value
+            descripcion:          document.getElementById("descripcion").value,
+            precio:               document.getElementById("precio").value
         })
     });
 
