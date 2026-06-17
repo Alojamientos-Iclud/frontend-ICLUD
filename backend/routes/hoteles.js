@@ -46,7 +46,8 @@ router.post("/", async (req, res) => {
             localizacion,
             cantidad_habitaciones,
             imagen_h,
-            descripcion
+            descripcion,
+            precio
         } = req.body;
 
         const hotel = await prisma.hotel.create({
@@ -55,7 +56,8 @@ router.post("/", async (req, res) => {
                 localizacion,
                 cantidad_habitaciones: Number(cantidad_habitaciones),
                 imagen_h,
-                descripcion
+                descripcion,
+                precio: precio ? Number(precio) : 0.0
             }
         });
 
