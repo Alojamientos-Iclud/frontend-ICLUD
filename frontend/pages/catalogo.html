@@ -93,6 +93,64 @@
     </div>
   </div>
 
+ <!-- MODAL RESERVA -->
+  <div class="modal-overlay" id="modal-reserva">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('reserva')">×</button>
+      <div class="modal-logo">ICLUD</div>
+      <h2>Reservá tu estadía</h2>
+      <p class="modal-sub">Completá los datos para proceder al pago seguro</p>
+      <input type="hidden" id="reserva-hotel-id">
+      <form id="bookingForm">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="reserva-nombre" placeholder="Ej: Juan Pérez" required>
+        </div>
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <input type="email" id="reserva-email" placeholder="tu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Cantidad de huéspedes</label>
+          <input type="number" id="reserva-huespedes" min="1" placeholder="Ej: 2" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha de llegada</label>
+            <input type="date" id="reserva-llegada" required>
+          </div>
+          <div class="form-group">
+            <label>Fecha de salida</label>
+            <input type="date" id="reserva-salida" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Confirmar reserva 📩</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMACIÓN DE MAIL -->
+  <div class="modal-overlay" id="modal-confirmacion">
+    <div class="modal" style="text-align:center;">
+      <button class="modal-close" onclick="closeModal('confirmacion')">×</button>
+      <div class="modal-logo">ICLUD</div>
+      <div style="font-size:56px;margin:16px 0;">📧</div>
+      <h2 style="color:#1a1a2e;margin:0 0 8px;">¡Reserva recibida!</h2>
+      <p style="color:#555;font-size:15px;line-height:1.6;margin:0 0 16px;">
+        Te enviamos un correo a<br>
+        <strong id="confirmacion-email" style="color:#635bff;"></strong>
+      </p>
+      <p style="color:#888;font-size:13px;margin:0 0 28px;">
+        Abrí el mail y hacé clic en <strong>"Completar pago con Stripe"</strong> para finalizar tu reserva.<br>
+        El enlace es válido por <strong>24 horas</strong>.
+      </p>
+      <button class="btn-submit" onclick="closeModal('confirmacion')" style="background:#1a1a2e;">
+        Entendido ✓
+      </button>
+      <p style="color:#bbb;font-size:12px;margin-top:16px;">¿No lo encontrás? Revisá la carpeta de spam.</p>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
 </body>
