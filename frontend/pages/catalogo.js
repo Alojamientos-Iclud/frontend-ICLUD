@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btnSubmit.disabled = true;
 
             try {
-                const response = await fetch("/api/checkout", {
+                const response = await fetch("http://localhost:3000/api/checkout", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(datosReserva),
@@ -53,7 +53,7 @@ async function cargarCatalogoCompleto() {
     cardsContainer.innerHTML = "<p style='grid-column: 1/-1; text-align: center; color: #666;'>Cargando catálogo disponible...</p>";
 
     try {
-        const response = await fetch("/api/hoteles");
+        const response = await fetch("http://localhost:3000/api/hoteles");
         if (!response.ok) throw new Error(`Error: ${response.status}`);
 
         const hoteles = await response.json();

@@ -49,7 +49,7 @@ function iconoTrash() {
 */
 async function cargarHoteles() {
 
-    const response = await fetch("/api/hoteles");
+    const response = await fetch("http://localhost:3000/api/hoteles");
     const hoteles = await response.json();
 
     actualizarStats(hoteles);
@@ -58,7 +58,6 @@ async function cargarHoteles() {
     if (hoteles.length === 0) {
         listaHoteles.innerHTML = `
             <div class="empty-state">
-                <p>🏨</p>
                 <p>No hay hoteles registrados todavía.</p>
             </div>
         `;
@@ -99,7 +98,7 @@ form.addEventListener("submit", async (e) => {
     btn.disabled = true;
     btn.textContent = "Guardando...";
 
-    await fetch("/api/hoteles", {
+    await fetch("http://localhost:3000/api/hoteles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
