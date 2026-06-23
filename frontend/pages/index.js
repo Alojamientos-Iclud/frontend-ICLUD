@@ -11,7 +11,7 @@ async function cargarAlojamientos() {
 
     try {
         // Hacemos la petición a tu API (que se conecta a tu Base de Datos)
-        const response = await fetch("/api/hoteles");
+        const response = await fetch("http://localhost:3000/api/hoteles");
         const hoteles = await response.json();
 
         // Limpiamos el contenedor (borra lo que haya quedado estático)
