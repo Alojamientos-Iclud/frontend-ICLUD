@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de API Airbnb</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 0 10px; }
+        h1 { color: #ff385c; }
+        #estado { padding: 10px; background: #f0f0f0; margin-bottom: 20px; border-radius: 4px; }
+        .grid-hoteles { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .tarjeta { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .tarjeta img { width: 100%; height: 200px; object-fit: cover; }
+        .info { padding: 15px; }
+        .precio { font-weight: bold; color: #333; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>Panel de Pruebas: API Airbnb</h1>
+    <div id="estado">Iniciando prueba... 🔄</div>
+
+    <div id="contenedor-hoteles" class="grid-hoteles"></div>
+
+    <script type="module" src="/frontend/test/test-api.js"></script>
+</body>
+</html>
