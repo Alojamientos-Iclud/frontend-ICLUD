@@ -1,9 +1,10 @@
 //export const API_URL = "http://localhost:3000";
 
-const API_URL = "https://airbnb19.p.rapidapi.com/api/v2/searchPropertyByPlaceId?placeId=ChIJ7cv00dWdDogRAMDACa2m4K8&adults=1&guestFavorite=false&ib=false&currency=USD";
+// La URL base de Booking (la dejamos limpia sin el destino, para que se lo pasemos dinámicamente)
+export const API_URL = "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels";
 
-const API_HEADERS = {
+export const API_HEADERS = {
     "Content-Type": "application/json",
-    "x-rapidapi-host": "airbnb19.p.rapidapi.com",
-    "x-rapidapi-key": "10906bd44fmsh8e954d5fb7eb082p1c5d45jsn9eed56f4b68"
+    "x-rapidapi-host": "booking-com15.p.rapidapi.com",
+    "x-rapidapi-key": "a10f6cd5camshf144cfd7b81f8c7p122fb9jsn40ab087c1943" // <--- Tu llave nueva activa
 };

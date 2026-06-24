@@ -24,11 +24,12 @@
       <h1>Encontrá tu próximo viaje</h1>
       <p>Compará hoteles, departamentos y alojamientos en un solo lugar.</p>
       <div class="search-box">
-        <input type="text" placeholder="Destino">
+        <input type="text" id="search-destino" placeholder="Destino">
         <input type="date">
         <input type="date">
+        <input type="date"> 
         <input type="number" placeholder="Personas">
-        <button>Buscar</button>
+        <button id="btn-buscar-hero">Buscar</button>
       </div>
     </div>
   </section>
@@ -71,6 +72,17 @@
     <p>© 2026 ICLUD - Proyecto de Prácticas Profesionalizantes</p>
   </footer>
   <div class="toast" id="toast"></div>
+  <script>
+  document.getElementById("btn-buscar-hero").addEventListener("click", () => {
+      const destino = document.getElementById("search-destino").value.trim();
+      if (!destino) {
+          alert("Por favor, ingresá un destino (Ej: Miami)");
+          return;
+      }
+      // Al estar en la misma carpeta, le pegamos directo al archivo
+      window.location.href = `resultados.html?location=${encodeURIComponent(destino)}`;
+  });
+</script>
 
 </body>
 </html>
