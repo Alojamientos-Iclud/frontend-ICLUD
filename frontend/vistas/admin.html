@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador Hoteles</title>
     <link rel="stylesheet" href="/frontend/styles/admin.css">
-    <a href="index.html">Inicio</a>
 </head>
 <body>
 
 <div class="page-wrapper">
 
-    <!-- Header -->
     <header class="page-header">
         <div class="page-header-left">
             <div class="logo-mark">
@@ -24,9 +22,9 @@
                 <p>Administrá tu cartera de propiedades</p>
             </div>
         </div>
+        <a href="index.html" class="btn btn-ghost" style="margin-left: auto; text-decoration: none;">Inicio</a>
     </header>
 
-    <!-- Stats -->
     <div class="stats-row">
         <div class="stat-card">
             <div class="label">Hoteles</div>
@@ -42,7 +40,6 @@
         </div>
     </div>
 
-    <!-- Form -->
     <div class="form-card">
         <div class="form-card-header">
             <span class="dot"></span>
@@ -76,6 +73,14 @@
                     <input type="text" id="imagen" placeholder="https://...">
                 </div>
 
+                <div class="form-group">
+                    <label for="catering">¿Ofrece Catering?</label>
+                    <select id="catering" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; background: #fff; font-size: 14px; height: 40px;">
+                        <option value="false">No</option>
+                        <option value="true">Sí</option>
+                    </select>
+                </div>
+
                 <div class="form-group full">
                     <label for="descripcion">Descripción</label>
                     <textarea id="descripcion" placeholder="Breve descripción del hotel..."></textarea>
@@ -94,7 +99,6 @@
         </form>
     </div>
 
-    <!-- List -->
     <div>
         <div class="list-header">
             <h2>Hoteles registrados</h2>
