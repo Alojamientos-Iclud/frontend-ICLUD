@@ -78,6 +78,7 @@ async function cargarCatalogoCompleto() {
                     <p>🛏️ ${hotel.cantidad_habitaciones} Hab.</p>
                     <p class="hotel-desc">${hotel.descripcion || 'Sin descripción disponible.'}</p>
                     <div class="price">$${hotel.precio?.toLocaleString('es-AR') || '---'} ARS / noche</div>
+                    <p><strong>Catering:</strong> ${hotel.tiene_catering ? '🍽️ Disponible' : '❌ No disponible'}</p>
                     <button class="btn-reservar" style="margin-top: 10px; width: 100%;" onclick="event.stopPropagation(); abrirModalReserva(${hotel.id})">
                         Reservar ahora
                     </button>
