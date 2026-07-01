@@ -107,7 +107,8 @@ form.addEventListener("submit", async (e) => {
             cantidad_habitaciones: document.getElementById("habitaciones").value,
             imagen_h:             document.getElementById("imagen").value,
             descripcion:          document.getElementById("descripcion").value,
-            precio:               document.getElementById("precio").value
+            precio:               document.getElementById("precio").value,
+            tiene_catering:        document.getElementById("catering").checked
         })
     });
 
