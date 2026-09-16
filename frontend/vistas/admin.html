@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador Hoteles</title>
-    <link rel="stylesheet" href="/frontend/styles/admin.css">
+    <title>Solicitud de Hoteles</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
@@ -18,27 +18,12 @@
                 </svg>
             </div>
             <div>
-                <h1>Gestión de Hoteles</h1>
-                <p>Administrá tu cartera de propiedades</p>
+                <h1>Solicitud de Hoteles</h1>
+                <p>Registre su hotel aquí</p>
             </div>
         </div>
-        <a href="index.html" class="btn btn-ghost" style="margin-left: auto; text-decoration: none;">Inicio</a>
+        <a href="" class="btn btn-ghost" style="margin-left: auto; text-decoration: none;">Inicio</a>
     </header>
-
-    <div class="stats-row">
-        <div class="stat-card">
-            <div class="label">Hoteles</div>
-            <div class="value" id="statHoteles">0</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Habitaciones</div>
-            <div class="value" id="statHabitaciones">0</div>
-        </div>
-        <div class="stat-card">
-            <div class="label">Promedio hab.</div>
-            <div class="value" id="statPromedio">—</div>
-        </div>
-    </div>
 
     <div class="form-card">
         <div class="form-card-header">
@@ -73,14 +58,6 @@
                     <input type="text" id="imagen" placeholder="https://...">
                 </div>
 
-                <div class="form-group">
-                    <label for="catering">¿Ofrece Catering?</label>
-                    <select id="catering" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ddd; background: #fff; font-size: 14px; height: 40px;">
-                        <option value="false">No</option>
-                        <option value="true">Sí</option>
-                    </select>
-                </div>
-
                 <div class="form-group full">
                     <label for="descripcion">Descripción</label>
                     <textarea id="descripcion" placeholder="Breve descripción del hotel..."></textarea>
@@ -99,16 +76,6 @@
         </form>
     </div>
 
-    <div>
-        <div class="list-header">
-            <h2>Hoteles registrados</h2>
-            <span class="count" id="countLabel">0 propiedades</span>
-        </div>
-        <div id="listaHoteles"></div>
-    </div>
-
 </div>
-
-<script src="/frontend/pages/admin.js"></script>
 </body>
 </html>
