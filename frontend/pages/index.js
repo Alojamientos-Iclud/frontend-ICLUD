@@ -28,7 +28,7 @@ async function cargarAlojamientos() {
                         <p>${hotel.localizacion}</p>
                         <p><strong>Habitaciones:</strong> ${hotel.cantidad_habitaciones}</p>
                         
-                        ${hotel.precio ? `<div class="price">$${hotel.precio} USD</div>` : ''}
+                        ${hotel.precio ? `<div class="price">$${hotel.precio} ARS</div>` : ''}
                         ${hotel.plataforma ? `<div class="platform">Disponible en ${hotel.plataforma}</div>` : ''}
                     </div>
                 </div>

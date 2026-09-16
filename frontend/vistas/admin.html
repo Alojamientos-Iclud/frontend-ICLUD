@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Hoteles</title>
-    <link rel="stylesheet" href="admin.css">
+    <title>Hoteles</title>
+    <link rel="stylesheet" href="/frontend/styles/admin.css">
 </head>
 <body>
 
@@ -18,12 +18,27 @@
                 </svg>
             </div>
             <div>
-                <h1>Solicitud de Hoteles</h1>
-                <p>Registre su hotel aquí</p>
+                <h1>Gestión de Hoteles</h1>
+                <p>Administrá tus ofertas </p>
             </div>
         </div>
-        <a href="" class="btn btn-ghost" style="margin-left: auto; text-decoration: none;">Inicio</a>
+        <a href="index.html" class="btn btn-ghost" style="margin-left: auto; text-decoration: none;">Inicio</a>
     </header>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="label">Hoteles</div>
+            <div class="value" id="statHoteles">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Habitaciones</div>
+            <div class="value" id="statHabitaciones">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">Promedio hab.</div>
+            <div class="value" id="statPromedio">—</div>
+        </div>
+    </div>
 
     <div class="form-card">
         <div class="form-card-header">
@@ -70,12 +85,22 @@
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 5v14M5 12h14"/>
                     </svg>
-                    Crear hotel
+                    Subir Oferta
                 </button>
             </div>
         </form>
     </div>
 
+    <div>
+        <div class="list-header">
+            <h2>Hoteles registrados</h2>
+            <span class="count" id="countLabel">0 propiedades</span>
+        </div>
+        <div id="listaHoteles"></div>
+    </div>
+
 </div>
+
+<script src="/frontend/pages/admin.js"></script>
 </body>
 </html>
