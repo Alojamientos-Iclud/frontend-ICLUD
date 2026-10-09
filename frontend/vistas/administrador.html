@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Gestión de Ofertas</title>
+    <link rel="stylesheet" href="../styles/administrador.css">
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Encabezado -->
+        <header class="page-header">
+            <div class="page-header-left">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>Panel de Administrador</h1>
+                    <p>Revisión y aprobación de ofertas de hoteles</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Métricas / Estadísticas resumidas -->
+        <section class="stats-row">
+            <div class="stat-card">
+                <div class="label">Ofertas Pendientes</div>
+                <div class="value" id="statOfertasPendientes">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Total Habitaciones</div>
+                <div class="value" id="statHabitaciones">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Promedio de Habitaciones</div>
+                <div class="value" id="statPromedio">—</div>
+            </div>
+        </section>
+
+        <!-- Lista de Ofertas -->
+        <section class="list-section">
+            <div class="list-header">
+                <h2>Ofertas Recibidas</h2>
+                <span class="count" id="countLabel">0 ofertas</span>
+            </div>
+
+            <!-- Contenedor dinámico de tarjetas -->
+            <div id="listaHoteles">
+                <!-- Estructura base para las tarjetas simples de la lista -->
+                <div class="empty-state">
+                    <p>🏨</p>
+                    <p>No hay ofertas pendientes de revisión.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="../pages/administrador.js"></script>
+</body>
+</html>
