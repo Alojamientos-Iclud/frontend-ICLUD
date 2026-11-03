@@ -30,9 +30,11 @@ form.addEventListener("submit", async (e) => {
             return;
         }
 
-        // Autenticación y autorización ya se verificaron en el backend.
-        // Sin sesión ni token: entramos directo a la pantalla de admin.
+        if (data.estatus === "hotelero"){
         window.location.href = "admin.html";
+        } else if (data.estatus === "admin") {
+            window.location.href = "administrador.html";
+        }
 
     } catch (error) {
         console.error(error);
