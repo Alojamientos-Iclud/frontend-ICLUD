@@ -17,7 +17,7 @@ nav a.btn-register:hover{background:#1e3a8a;color:#fff}
 .search-box{display:flex;flex-wrap:wrap;gap:15px;justify-content:center}
 .search-box input,.search-box button{padding:15px;border:none;border-radius:10px;font-size:16px}
 .search-box input{width:200px}
-.search-box button{background:#2563eb;color:#fff;cursor:pointer;font-weight:bold;transition:.3s}
+.search-box button{background:#2563eb;color:#fff;cursor:pointer;font-weight:bold;transition:.3s;width:200px}
 .search-box button:hover{background:#1d4ed8}
 
 .section{padding:80px 60px}
