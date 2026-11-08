@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Administrador</title>
+    <title>Iniciar sesión</title>
     <link rel="stylesheet" href="/frontend/styles/admin.css">
     <style>
         .login-wrapper {
@@ -40,8 +40,8 @@
 <body>
 
 <div class="login-wrapper">
-    <h1>Acceso Administrador</h1>
-    <p>Ingresá tus credenciales de administrador para continuar.</p>
+    <h1>Iniciar sesión</h1>
+    <p>Ingresá tu correo y contraseña para continuar.</p>
 
     <div class="login-error" id="loginError"></div>
 
@@ -59,8 +59,10 @@
             <button type="submit" class="btn btn-primary" id="btnIngresar">Ingresar</button>
         </div>
     </form>
+    <p style="margin-top: 1.2rem; margin-bottom: 0; text-align: center;">¿No tenés cuenta? <a href="registro.html">Registrate</a></p>
 </div>
 
+<script src="/frontend/pages/sesion.js"></script>
 <script src="/frontend/pages/clave.js"></script>
 </body>
 </html>

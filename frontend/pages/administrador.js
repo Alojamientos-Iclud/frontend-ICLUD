@@ -1,3 +1,17 @@
+// Misma imagen predeterminada que usa el catálogo (catalogo.js) cuando un hotel no tiene imagen
+const IMAGEN_PREDETERMINADA = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200";
+
+function escapeHtml(texto) {
+    return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+function escapeAttr(texto) {
+    return escapeHtml(texto).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
 // Variable global para mantener las ofertas en memoria
 let ofertasCargadas = [];
 
@@ -42,15 +56,13 @@ async function cargarOfertas() {
         ofertas.forEach(oferta => {
             const card = document.createElement("div");
             card.className = "hotel";
+            const imagen = oferta.imagen_h || IMAGEN_PREDETERMINADA;
 
             card.innerHTML = `
-                <div class="hotel-icon">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/>
-                    </svg>
-                </div>
+                <img class="hotel-thumb" src="${escapeAttr(imagen)}" alt="${escapeAttr(oferta.nombre)}"
+                     onerror="this.onerror=null;this.src='${IMAGEN_PREDETERMINADA}'">
                 <div class="hotel-body">
-                    <h3>${oferta.nombre}</h3>
+                    <h3>${escapeHtml(oferta.nombre)}</h3>
                     <div class="hotel-meta">
                         <span>💵 $${oferta.precio?.toLocaleString('es-AR') || '0'} / noche</span>
                         <span>🛏️ ${oferta.cantidad_habitaciones} hab.</span>

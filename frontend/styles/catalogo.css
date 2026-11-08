@@ -212,13 +212,49 @@ nav a.btn-login:hover {
 .modal-switch { text-align: center; font-size: 14px; color: #666; margin-top: 20px; }
 .modal-switch a { color: #2563eb; font-weight: bold; cursor: pointer; }
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: #111827; color: #fff; padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: bold; z-index: 3000; box-shadow: 0 8px 30px rgba(0, 0, 0, .25); transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; opacity: 0; }
-.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.toast.show, .toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
 .toast.success { border-left: 4px solid #22c55e; }
 .toast.error { border-left: 4px solid #ef4444; }
 .form-error { font-size: 12px; color: #ef4444; margin-top: 5px; display: none; }
 .form-error.visible { display: block; }
 
 footer { background: #111827; color: #fff; text-align: center; padding: 30px; margin-top: auto; }
+
+/* --- Zona de sesión del header --- */
+.nav-bienvenida { margin-left: 25px; color: #333; font-size: 14px; display: inline-block; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+.nav-bienvenida strong { color: #1e3a8a; }
+#nav-auth { display: inline-flex; align-items: center; }
+
+/* --- Botón de favoritos (visible solo con la tarjeta expandida) --- */
+.btn-favorito {
+  display: none;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background: #fff;
+  color: #be123c;
+  border: 2px solid #fda4af;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .2s;
+}
+.btn-favorito:hover { background: #fff1f2; }
+.btn-favorito.activo { background: #be123c; color: #fff; border-color: #be123c; }
+.btn-favorito:disabled { opacity: .6; cursor: wait; }
+.card.expanded .btn-favorito { display: block; animation: fadeIn 0.3s ease; }
+
+/* --- Modal "necesitás una cuenta" --- */
+.btn-link { display: block; text-align: center; text-decoration: none; }
+.btn-submit.secundario { background: #fff; color: #1e3a8a; border: 2px solid #1e3a8a; }
+.btn-submit.secundario:hover { background: #1e3a8a; color: #fff; }
+
+/* --- Estado vacío de favoritos --- */
+.estado-vacio { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666; }
+.estado-vacio .estado-vacio-icono { font-size: 56px; margin-bottom: 12px; }
+.estado-vacio h2 { color: #111827; margin-bottom: 8px; }
+.estado-vacio a { display: inline-block; margin-top: 18px; padding: 10px 22px; background: #1e3a8a; color: #fff; border-radius: 8px; font-weight: bold; text-decoration: none; }
+.estado-vacio a:hover { background: #2563eb; }
 
 @media (max-width: 768px) {
   header { padding: 20px; flex-direction: column; position: static; }
