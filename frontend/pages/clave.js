@@ -30,10 +30,17 @@ form.addEventListener("submit", async (e) => {
             return;
         }
 
+        // Guardamos la sesión (token + usuario) para el resto de las páginas
+        guardarSesion(data.token, data.usuario);
+
         if (data.estatus === "hotelero"){
         window.location.href = "admin.html";
         } else if (data.estatus === "admin") {
             window.location.href = "administrador.html";
+        } else {
+            // Vuelve a la página desde la que se pidió el login (ej: catalogo.html), o al inicio
+            const next = new URLSearchParams(window.location.search).get("next");
+            window.location.href = /^[a-z]+\.html$/i.test(next || "") ? next : "index.html";
         }
 
     } catch (error) {

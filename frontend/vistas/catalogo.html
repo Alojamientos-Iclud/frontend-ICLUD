@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>ICLUD - Catálogo de Alojamientos</title>
   <link rel="stylesheet" href="/frontend/styles/catalogo.css"/>
+  <script src="/frontend/pages/sesion.js"></script>
   <script src="/frontend/pages/catalogo.js"></script>
 </head>
 <body>
@@ -13,7 +14,12 @@
     <div class="logo">ICLUD</div>
     <nav>
       <a href="index.html">Inicio</a>
-      <a href="#" class="active">Alojamientos</a>
+      <a href="catalogo.html" class="active">Alojamientos</a>
+      <a href="favoritos.html">Favoritos</a>
+      <span id="nav-auth">
+        <a href="clave.html" class="btn-login">Ingresar</a>
+        <a href="registro.html" class="btn-register">Registrarse</a>
+      </span>
     </nav>
   </header>
 
@@ -83,6 +89,19 @@
         Entendido ✓
       </button>
       <p style="color:#bbb;font-size:12px;margin-top:16px;">¿No lo encontrás? Revisá la carpeta de spam.</p>
+    </div>
+  </div>
+
+  <!-- MODAL: se necesita una cuenta (reservar / favoritos) -->
+  <div class="modal-overlay" id="modal-login-requerido">
+    <div class="modal" style="text-align:center;">
+      <button class="modal-close" onclick="closeModal('login-requerido')">×</button>
+      <div class="modal-logo">ICLUD</div>
+      <div style="font-size:48px;margin:12px 0;">🔒</div>
+      <h2>Necesitás una cuenta</h2>
+      <p class="modal-sub" id="login-requerido-msg">Iniciá sesión o registrate para continuar.</p>
+      <a class="btn-submit btn-link" id="login-requerido-login" href="clave.html">Iniciar sesión</a>
+      <a class="btn-submit btn-link secundario" id="login-requerido-registro" href="registro.html" style="margin-top:10px;">Registrarme</a>
     </div>
   </div>
 

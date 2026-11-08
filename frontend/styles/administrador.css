@@ -347,3 +347,13 @@ body {
     font-size: 32px;
     margin-bottom: 8px;
 }
+
+/* Imagen del hotel en las solicitudes */
+.hotel-thumb {
+    width: 96px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    background: var(--green-50);
+}
