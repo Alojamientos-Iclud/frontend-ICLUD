@@ -1,4 +1,10 @@
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_PRODUCCION = "https://backend-iclud.vercel.app";
+
+// Si VITE_API_URL no está definida: localhost en desarrollo, backend de Vercel en producción.
+export const API_URL = (
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? API_PRODUCCION : "http://localhost:3000")
+).replace(/\/+$/, "");
 
 export const IMAGEN_PREDETERMINADA =
   "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200";
