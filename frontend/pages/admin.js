@@ -36,12 +36,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     throw new Error("Ocurrió un error en el servidor al guardar la oferta.");
                 }
 
-                alert("¡Oferta enviada exitosamente! Quedó registrada en pendientes para ser evaluada por el administrador.");
                 form.reset();
+                // Sin await: el botón se rehabilita enseguida (finally) mientras el aviso está abierto
+                mostrarAlerta({
+                    icono: "✅",
+                    titulo: "¡Oferta enviada!",
+                    mensaje: "Quedó registrada en pendientes para ser evaluada por el administrador."
+                });
 
             } catch (error) {
                 console.error("Error al enviar la oferta:", error);
-                alert("❌ No se pudo enviar la oferta. Verifica que el servidor backend esté corriendo.");
+                mostrarAlerta({
+                    icono: "❌",
+                    titulo: "No se pudo enviar la oferta",
+                    mensaje: "Verificá que el servidor backend esté corriendo e intentá de nuevo."
+                });
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = textoOriginal;
@@ -55,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Referencias a los elementos de la interfaz de hoteles del hotelero
 const listaHoteles = document.getElementById("listaHoteles");
+
+// Hoteles publicados en pantalla (para nombrarlos en el aviso de confirmación)
+let hotelesCargados = [];
 
 /* ==========================================================================
    ÍCONOS SVG REUTILIZABLES
@@ -107,6 +119,7 @@ async function cargarHoteles() {
         if (!response.ok) throw new Error("Error al obtener los hoteles de la base de datos.");
 
         const hoteles = await response.json();
+        hotelesCargados = hoteles;
 
         actualizarStats(hoteles);
         listaHoteles.innerHTML = "";
@@ -151,11 +164,22 @@ async function cargarHoteles() {
    ELIMINAR HOTEL PUBLICADO
    ========================================================================== */
 async function eliminarHotel(id) {
-    if (!confirm("¿Deseas retirar este hotel del catálogo oficial?")) return;
+    const hotel = hotelesCargados.find(h => String(h.id) === String(id));
+
+    const confirmado = await confirmarAccion({
+        icono: "🗑️",
+        titulo: "¿Retirar este hotel?",
+        mensaje: hotel
+            ? `"${hotel.nombre}" se retirará del catálogo oficial. Esta acción no se puede deshacer.`
+            : "El hotel se retirará del catálogo oficial. Esta acción no se puede deshacer.",
+        textoConfirmar: "Sí, retirar",
+        peligro: true
+    });
+    if (!confirmado) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/hoteles/${id}`, { 
-            method: "DELETE" 
+        const response = await fetch(`http://localhost:3000/api/hoteles/${id}`, {
+            method: "DELETE"
         });
 
         if (!response.ok) throw new Error("No se pudo eliminar el hotel.");
@@ -164,6 +188,97 @@ async function eliminarHotel(id) {
 
     } catch (error) {
         console.error("Error al eliminar hotel:", error);
-        alert("❌ Error al intentar eliminar el hotel.");
+        await mostrarAlerta({
+            icono: "❌",
+            titulo: "No se pudo retirar el hotel",
+            mensaje: "Ocurrió un problema al intentar eliminarlo. Intentá de nuevo."
+        });
     }
+}
+
+/* ==========================================================================
+   ALERTAS Y CONFIRMACIONES (reemplazan a alert() y confirm())
+   Misma estética que el aviso "Necesitás una cuenta" del catálogo.
+   ========================================================================== */
+
+/*
+    Muestra un modal y devuelve una Promise con el valor del botón elegido.
+    Si se cierra con la X, tocando afuera o con Escape, resuelve valorCancelar.
+    Los textos se insertan con textContent (nada se interpreta como HTML).
+*/
+function mostrarModal({ icono, titulo, mensaje, botones, valorCancelar = false }) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.innerHTML = `
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+                <button type="button" class="modal-close" aria-label="Cerrar">×</button>
+                <div class="modal-logo">ICLUD</div>
+                <div class="modal-icono"></div>
+                <h2 id="modal-titulo"></h2>
+                <p class="modal-sub"></p>
+                <div class="modal-botones"></div>
+            </div>`;
+
+        overlay.querySelector(".modal-icono").textContent = icono;
+        overlay.querySelector("h2").textContent = titulo;
+        overlay.querySelector(".modal-sub").textContent = mensaje;
+
+        function cerrar(valor) {
+            document.removeEventListener("keydown", alPresionarTecla);
+            overlay.classList.remove("active");
+            setTimeout(() => overlay.remove(), 300);
+            resolve(valor);
+        }
+
+        function alPresionarTecla(e) {
+            if (e.key === "Escape") cerrar(valorCancelar);
+        }
+
+        const contenedorBotones = overlay.querySelector(".modal-botones");
+        botones.forEach((b) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `btn-submit ${b.clase || ""}`.trim();
+            btn.textContent = b.texto;
+            btn.addEventListener("click", () => cerrar(b.valor));
+            contenedorBotones.appendChild(btn);
+        });
+
+        overlay.querySelector(".modal-close").addEventListener("click", () => cerrar(valorCancelar));
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) cerrar(valorCancelar);
+        });
+        document.addEventListener("keydown", alPresionarTecla);
+
+        document.body.appendChild(overlay);
+        overlay.offsetHeight; // fuerza el reflow para que se vea la animación de entrada
+        overlay.classList.add("active");
+        contenedorBotones.firstElementChild.focus();
+    });
+}
+
+// Reemplazo de confirm(): devuelve true si el usuario confirma, false si cancela
+function confirmarAccion({ icono, titulo, mensaje, textoConfirmar = "Confirmar", textoCancelar = "Cancelar", peligro = false }) {
+    return mostrarModal({
+        icono,
+        titulo,
+        mensaje,
+        botones: [
+            { texto: textoConfirmar, clase: peligro ? "peligro" : "", valor: true },
+            { texto: textoCancelar, clase: "secundario", valor: false }
+        ],
+        valorCancelar: false
+    });
+}
+
+// Reemplazo de alert(): un solo botón para cerrar
+function mostrarAlerta({ icono, titulo, mensaje, textoBoton = "Entendido" }) {
+    return mostrarModal({
+        icono,
+        titulo,
+        mensaje,
+        botones: [{ texto: textoBoton, valor: true }],
+        valorCancelar: true
+    });
 }

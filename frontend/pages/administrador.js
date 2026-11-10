@@ -110,17 +110,27 @@ function actualizarStats(ofertas) {
    3. ACEPTAR OFERTA (Sube a BD vía /api/hoteles y borra del JSON de pendientes)
    ========================================================================== */
 async function aceptarOferta(id) {
-    if (!confirm("¿Deseas aprobar esta oferta y agregarla al catálogo oficial?")) return;
+    // 1. Buscamos la oferta en el array local guardado al cargar la página
+    const oferta = ofertasCargadas.find(o => String(o.id) === String(id));
+
+    if (!oferta) {
+        await mostrarAlerta({
+            icono: "❌",
+            titulo: "Oferta no encontrada",
+            mensaje: "No se encontró la información de la oferta. Recargá la página e intentá de nuevo."
+        });
+        return;
+    }
+
+    const confirmado = await confirmarAccion({
+        icono: "🏨",
+        titulo: "¿Aprobar esta oferta?",
+        mensaje: `"${oferta.nombre}" se agregará al catálogo oficial y se quitará de las ofertas pendientes.`,
+        textoConfirmar: "Sí, aprobar"
+    });
+    if (!confirmado) return;
 
     try {
-        // 1. Buscamos la oferta en el array local guardado al cargar la página
-        const oferta = ofertasCargadas.find(o => String(o.id) === String(id));
-
-        if (!oferta) {
-            alert("❌ No se encontró la información de la oferta en memoria.");
-            return;
-        }
-
         // 2. Enviamos el hotel a la base de datos usando TU RUTA OFICIAL
         const resHotel = await fetch("http://localhost:3000/api/hoteles", {
             method: "POST",
@@ -150,12 +160,20 @@ async function aceptarOferta(id) {
             throw new Error("El hotel fue guardado en la BD, pero ocurrió un problema al quitarlo de la lista de pendientes.");
         }
 
-        alert("✅ Oferta aprobada e ingresada al catálogo correctamente.");
         cargarOfertas();
+        await mostrarAlerta({
+            icono: "✅",
+            titulo: "¡Oferta aprobada!",
+            mensaje: `"${oferta.nombre}" ya forma parte del catálogo oficial.`
+        });
 
     } catch (error) {
         console.error("Error al aceptar oferta:", error);
-        alert("❌ Error: " + error.message);
+        await mostrarAlerta({
+            icono: "❌",
+            titulo: "Ocurrió un problema",
+            mensaje: error.message
+        });
     }
 }
 
@@ -163,7 +181,18 @@ async function aceptarOferta(id) {
    4. RECHAZAR OFERTA (Se elimina únicamente del JSON)
    ========================================================================== */
 async function rechazarOferta(id) {
-    if (!confirm("¿Deseas rechazar y eliminar esta propuesta?")) return;
+    const oferta = ofertasCargadas.find(o => String(o.id) === String(id));
+
+    const confirmado = await confirmarAccion({
+        icono: "🗑️",
+        titulo: "¿Rechazar esta propuesta?",
+        mensaje: oferta
+            ? `La propuesta "${oferta.nombre}" se eliminará de la lista de pendientes. Esta acción no se puede deshacer.`
+            : "La propuesta se eliminará de la lista de pendientes. Esta acción no se puede deshacer.",
+        textoConfirmar: "Sí, rechazar",
+        peligro: true
+    });
+    if (!confirmado) return;
 
     try {
         const response = await fetch(`http://localhost:3000/api/ofertas/${id}`, {
@@ -173,13 +202,108 @@ async function rechazarOferta(id) {
         if (!response.ok) throw new Error("No se pudo rechazar la oferta.");
 
         const res = await response.json();
-        alert("🗑️ " + res.mensaje);
 
         // Recargamos el listado
         cargarOfertas();
+        await mostrarAlerta({
+            icono: "🗑️",
+            titulo: "Propuesta rechazada",
+            mensaje: res.mensaje || "La propuesta fue eliminada de la lista de pendientes."
+        });
 
     } catch (error) {
         console.error("Error al rechazar oferta:", error);
-        alert("❌ Ocurrió un problema al descartar la oferta.");
+        await mostrarAlerta({
+            icono: "❌",
+            titulo: "Ocurrió un problema",
+            mensaje: "No se pudo descartar la oferta. Intentá de nuevo."
+        });
     }
+}
+
+/* ==========================================================================
+   5. ALERTAS Y CONFIRMACIONES (reemplazan a alert() y confirm())
+   Misma estética que el aviso "Necesitás una cuenta" del catálogo.
+   ========================================================================== */
+
+/*
+    Muestra un modal y devuelve una Promise con el valor del botón elegido.
+    Si se cierra con la X, tocando afuera o con Escape, resuelve valorCancelar.
+    Los textos se insertan con textContent (nada se interpreta como HTML).
+*/
+function mostrarModal({ icono, titulo, mensaje, botones, valorCancelar = false }) {
+    return new Promise((resolve) => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.innerHTML = `
+            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+                <button type="button" class="modal-close" aria-label="Cerrar">×</button>
+                <div class="modal-logo">ICLUD</div>
+                <div class="modal-icono"></div>
+                <h2 id="modal-titulo"></h2>
+                <p class="modal-sub"></p>
+                <div class="modal-botones"></div>
+            </div>`;
+
+        overlay.querySelector(".modal-icono").textContent = icono;
+        overlay.querySelector("h2").textContent = titulo;
+        overlay.querySelector(".modal-sub").textContent = mensaje;
+
+        function cerrar(valor) {
+            document.removeEventListener("keydown", alPresionarTecla);
+            overlay.classList.remove("active");
+            setTimeout(() => overlay.remove(), 300);
+            resolve(valor);
+        }
+
+        function alPresionarTecla(e) {
+            if (e.key === "Escape") cerrar(valorCancelar);
+        }
+
+        const contenedorBotones = overlay.querySelector(".modal-botones");
+        botones.forEach((b) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `btn-submit ${b.clase || ""}`.trim();
+            btn.textContent = b.texto;
+            btn.addEventListener("click", () => cerrar(b.valor));
+            contenedorBotones.appendChild(btn);
+        });
+
+        overlay.querySelector(".modal-close").addEventListener("click", () => cerrar(valorCancelar));
+        overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) cerrar(valorCancelar);
+        });
+        document.addEventListener("keydown", alPresionarTecla);
+
+        document.body.appendChild(overlay);
+        overlay.offsetHeight; // fuerza el reflow para que se vea la animación de entrada
+        overlay.classList.add("active");
+        contenedorBotones.firstElementChild.focus();
+    });
+}
+
+// Reemplazo de confirm(): devuelve true si el admin confirma, false si cancela
+function confirmarAccion({ icono, titulo, mensaje, textoConfirmar = "Confirmar", textoCancelar = "Cancelar", peligro = false }) {
+    return mostrarModal({
+        icono,
+        titulo,
+        mensaje,
+        botones: [
+            { texto: textoConfirmar, clase: peligro ? "peligro" : "", valor: true },
+            { texto: textoCancelar, clase: "secundario", valor: false }
+        ],
+        valorCancelar: false
+    });
+}
+
+// Reemplazo de alert(): un solo botón para cerrar
+function mostrarAlerta({ icono, titulo, mensaje, textoBoton = "Entendido" }) {
+    return mostrarModal({
+        icono,
+        titulo,
+        mensaje,
+        botones: [{ texto: textoBoton, valor: true }],
+        valorCancelar: true
+    });
 }
