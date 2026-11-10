@@ -1,6 +1,3 @@
-/* ==========================================================================
-   1. CONFIGURACIÓN GENERAL Y BASE
-   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -16,9 +13,6 @@ body {
   min-height: 100vh;
 }
 
-/* ==========================================================================
-   2. HEADER / NAVEGACIÓN (Fijo arriba)
-   ========================================================================== */
 header {
   width: 100%;
   padding: 20px 60px;
@@ -74,12 +68,9 @@ nav a.btn-login:hover {
   background: #2563eb;
 }
 
-/* ==========================================================================
-   3. SECCIÓN DEL CATÁLOGO DE HOTELES (Ajustado para 5 por fila)
-   ========================================================================== */
 .catalogo-container {
   flex: 1;
-  padding: 140px 60px 80px 60px; 
+  padding: 140px 60px 80px 60px;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
@@ -95,7 +86,7 @@ nav a.btn-login:hover {
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px; 
+  gap: 20px;
 }
 
 .card {
@@ -121,7 +112,7 @@ nav a.btn-login:hover {
 
 .card img {
   width: 100%;
-  height: 150px; 
+  height: 150px;
   object-fit: cover;
 }
 
@@ -140,17 +131,16 @@ nav a.btn-login:hover {
   margin-bottom: 6px;
 }
 
-/* --- Estilo para la Descripción --- */
 .hotel-desc {
   font-size: 13px !important;
   color: #888 !important;
-  display: none; /* Se oculta por defecto para ahorrar espacio */
+  display: none;
   margin: 10px 0;
   line-height: 1.4;
 }
 
 .card.expanded .hotel-desc {
-  display: block; /* Solo se muestra al expandir */
+  display: block;
   animation: fadeIn 0.4s ease;
 }
 
@@ -162,7 +152,7 @@ nav a.btn-login:hover {
 }
 
 .btn-reservar {
-  display: none; 
+  display: none;
   width: 100%;
   margin-top: 15px;
   padding: 10px;
@@ -188,9 +178,6 @@ nav a.btn-login:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================================================================
-   4. MODALES, TOASTS Y RESPONSIVE (Mismos estilos anteriores)
-   ========================================================================== */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .65); backdrop-filter: blur(4px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .3s; }
 .modal-overlay.active { opacity: 1; pointer-events: all; }
 .modal { background: #fff; border-radius: 24px; width: 90%; max-width: 440px; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(0, 0, 0, .3); transform: translateY(30px) scale(.97); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; opacity: 0; }
@@ -220,12 +207,10 @@ nav a.btn-login:hover {
 
 footer { background: #111827; color: #fff; text-align: center; padding: 30px; margin-top: auto; }
 
-/* --- Zona de sesión del header --- */
 .nav-bienvenida { margin-left: 25px; color: #333; font-size: 14px; display: inline-block; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
 .nav-bienvenida strong { color: #1e3a8a; }
 #nav-auth { display: inline-flex; align-items: center; }
 
-/* --- Botón de favoritos (visible solo con la tarjeta expandida) --- */
 .btn-favorito {
   display: none;
   width: 100%;
@@ -244,12 +229,10 @@ footer { background: #111827; color: #fff; text-align: center; padding: 30px; ma
 .btn-favorito:disabled { opacity: .6; cursor: wait; }
 .card.expanded .btn-favorito { display: block; animation: fadeIn 0.3s ease; }
 
-/* --- Modal "necesitás una cuenta" --- */
 .btn-link { display: block; text-align: center; text-decoration: none; }
 .btn-submit.secundario { background: #fff; color: #1e3a8a; border: 2px solid #1e3a8a; }
 .btn-submit.secundario:hover { background: #1e3a8a; color: #fff; }
 
-/* --- Estado vacío de favoritos --- */
 .estado-vacio { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #666; }
 .estado-vacio .estado-vacio-icono { font-size: 56px; margin-bottom: 12px; }
 .estado-vacio h2 { color: #111827; margin-bottom: 8px; }
@@ -264,3 +247,5 @@ footer { background: #111827; color: #fff; text-align: center; padding: 30px; ma
   .catalogo-title { font-size: 28px; text-align: center; }
   .form-row { grid-template-columns: 1fr; }
 }
+
+#root { flex: 1; display: flex; flex-direction: column; }
