@@ -1,5 +1,5 @@
 export default function TarjetaUsuarios({ usuario, procesando, onAlternarBloqueo }) {
-  const bloqueado = Boolean(usuario.bloqueado);
+  const bloqueado = !usuario.estado;
 
   return (
     <article className="usuario-card">

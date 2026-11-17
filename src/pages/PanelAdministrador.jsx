@@ -51,18 +51,18 @@ export default function PanelAdministrador() {
   }, [cargarUsuarios]);
 
   async function alternarBloqueo(usuario) {
-    const bloqueado = !usuario.bloqueado;
+    const nuevoEstado = !usuario.estado;
     setUsuariosProcesando((actuales) => new Set(actuales).add(usuario.id));
 
     try {
-      await api(`/api/admin/usuarios/${encodeURIComponent(usuario.id)}`, {
+      await api(`/api/admin/usuarios/${encodeURIComponent(usuario.id)}/estado`, {
         metodo: "PATCH",
-        cuerpo: { bloqueado },
+        cuerpo: { estado: nuevoEstado },
         auth: true
       });
       setUsuarios((actuales) =>
         actuales.map((actual) =>
-          actual.id === usuario.id ? { ...actual, bloqueado } : actual
+          actual.id === usuario.id ? { ...actual, estado: nuevoEstado } : actual
         )
       );
     } catch (error) {
