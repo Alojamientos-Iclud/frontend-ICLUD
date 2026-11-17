@@ -14,7 +14,7 @@ import { api } from "../services/api.js";
 export default function Catalogo({ soloFavoritos = false }) {
   useEstilos(catalogoCss);
 
-  const { sesion, cerrar } = useSesion();
+  const { sesion, cerrar, actualizarCantidadFavoritos } = useSesion();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -77,6 +77,7 @@ export default function Catalogo({ soloFavoritos = false }) {
           const favoritos = await api("/api/favoritos", { auth: true });
           if (cancelado) return;
           setFavoritosIds(new Set(favoritos.map((h) => h.id)));
+          actualizarCantidadFavoritos(favoritos.length);
           setHoteles(favoritos);
           setEstado("listo");
         } catch (error) {
@@ -97,6 +98,7 @@ export default function Catalogo({ soloFavoritos = false }) {
         try {
           const favoritos = await api("/api/favoritos", { auth: true });
           ids = new Set(favoritos.map((h) => h.id));
+          actualizarCantidadFavoritos(favoritos.length);
         } catch (error) {
           if (error.status === 401) cerrar();
           else console.error("No se pudieron cargar los favoritos:", error);
@@ -144,6 +146,7 @@ export default function Catalogo({ soloFavoritos = false }) {
         else nuevos.add(hotelId);
         return nuevos;
       });
+      actualizarCantidadFavoritos(favoritosIds.size + (eraFavorito ? -1 : 1));
 
       if (soloFavoritos && eraFavorito) {
         setHoteles((lista) => lista.filter((h) => h.id !== hotelId));
