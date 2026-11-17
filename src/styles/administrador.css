@@ -349,6 +349,74 @@ body {
     background: var(--green-50);
 }
 
+.usuarios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.usuario-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.usuario-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.usuario-info h3 {
+    font-size: 14px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.usuario-estado {
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--success-bg);
+    color: var(--success-text);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.usuario-estado.bloqueado {
+    background: var(--danger-bg);
+    color: var(--danger-text);
+}
+
+.usuario-card .btn {
+    justify-content: center;
+}
+
+.usuario-card .btn:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+@media (max-width: 700px) {
+    .usuarios-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .usuarios-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, .65); backdrop-filter: blur(4px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity .3s; font-family: Arial, Helvetica, sans-serif; }
 .modal-overlay.active { opacity: 1; pointer-events: all; }
 .modal-overlay .modal { background: #fff; border-radius: 24px; width: 90%; max-width: 440px; padding: 40px; position: relative; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, .3); transform: translateY(30px) scale(.97); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .3s; opacity: 0; }
