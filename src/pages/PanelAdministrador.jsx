@@ -4,6 +4,7 @@ import useEstilos from "../hooks/useEstilos.js";
 import administradorCss from "../styles/administrador.css?inline";
 import { useDialogos } from "../context/DialogosContext.jsx";
 import { api, IMAGEN_PREDETERMINADA } from "../services/api.js";
+import TarjetaUsuarios from "../components/TarjetaUsuarios.jsx";
 
 export default function PanelAdministrador() {
   useEstilos(administradorCss);
@@ -12,6 +13,9 @@ export default function PanelAdministrador() {
 
   const [ofertas, setOfertas] = useState([]);
   const [estado, setEstado] = useState("cargando");
+  const [usuarios, setUsuarios] = useState([]);
+  const [estadoUsuarios, setEstadoUsuarios] = useState("cargando");
+  const [usuariosProcesando, setUsuariosProcesando] = useState(() => new Set());
 
   const cargarOfertas = useCallback(async () => {
     try {
@@ -24,9 +28,58 @@ export default function PanelAdministrador() {
     }
   }, []);
 
+  const cargarUsuarios = useCallback(async () => {
+    try {
+      const lista = await api("/api/admin/usuarios", { auth: true });
+      if (!Array.isArray(lista)) {
+        throw new Error("La respuesta del servidor no contiene una lista de usuarios.");
+      }
+      setUsuarios(lista);
+      setEstadoUsuarios("listo");
+    } catch (error) {
+      console.error("Error al cargar los usuarios:", error);
+      setEstadoUsuarios("error");
+    }
+  }, []);
+
   useEffect(() => {
     cargarOfertas();
   }, [cargarOfertas]);
+
+  useEffect(() => {
+    cargarUsuarios();
+  }, [cargarUsuarios]);
+
+  async function alternarBloqueo(usuario) {
+    const bloqueado = !usuario.bloqueado;
+    setUsuariosProcesando((actuales) => new Set(actuales).add(usuario.id));
+
+    try {
+      await api(`/api/admin/usuarios/${encodeURIComponent(usuario.id)}`, {
+        metodo: "PATCH",
+        cuerpo: { bloqueado },
+        auth: true
+      });
+      setUsuarios((actuales) =>
+        actuales.map((actual) =>
+          actual.id === usuario.id ? { ...actual, bloqueado } : actual
+        )
+      );
+    } catch (error) {
+      console.error("Error al cambiar el estado del usuario:", error);
+      await alerta({
+        icono: "❌",
+        titulo: "Ocurrió un problema",
+        mensaje: error.status ? error.message : "No se pudo actualizar el usuario. Intentá de nuevo."
+      });
+    } finally {
+      setUsuariosProcesando((actuales) => {
+        const siguientes = new Set(actuales);
+        siguientes.delete(usuario.id);
+        return siguientes;
+      });
+    }
+  }
 
   async function aceptarOferta(oferta) {
     const confirmado = await confirmar({
@@ -198,6 +251,45 @@ export default function PanelAdministrador() {
               </div>
             ))}
         </div>
+      </section>
+
+      <section className="list-section">
+        <div className="list-header">
+          <h2>Usuarios</h2>
+          <span className="count">
+            {usuarios.length === 1 ? "1 usuario" : `${usuarios.length} usuarios`}
+          </span>
+        </div>
+
+        {estadoUsuarios === "cargando" && (
+          <p style={{ textAlign: "center", color: "#9A9A92" }}>Cargando usuarios...</p>
+        )}
+
+        {estadoUsuarios === "error" && (
+          <p style={{ textAlign: "center", color: "#dc2626" }}>
+            Error al cargar los usuarios. Intentá recargar la página.
+          </p>
+        )}
+
+        {estadoUsuarios === "listo" && usuarios.length === 0 && (
+          <div className="empty-state">
+            <p>👥</p>
+            <p>No hay usuarios registrados.</p>
+          </div>
+        )}
+
+        {estadoUsuarios === "listo" && usuarios.length > 0 && (
+          <div className="usuarios-grid">
+            {usuarios.map((usuario) => (
+              <TarjetaUsuarios
+                key={usuario.id}
+                usuario={usuario}
+                procesando={usuariosProcesando.has(usuario.id)}
+                onAlternarBloqueo={() => alternarBloqueo(usuario)}
+              />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
