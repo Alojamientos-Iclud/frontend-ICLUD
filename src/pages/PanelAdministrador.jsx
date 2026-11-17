@@ -51,7 +51,7 @@ export default function PanelAdministrador() {
   }, [cargarUsuarios]);
 
   async function alternarBloqueo(usuario) {
-    const nuevoEstado = !usuario.estado;
+    const nuevoEstado = usuario.estado === false;
     setUsuariosProcesando((actuales) => new Set(actuales).add(usuario.id));
 
     try {
