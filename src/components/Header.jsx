@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSesion } from "../context/SesionContext.jsx";
 
 export default function Header({ activo, mostrarInicio = true }) {
-  const { sesion, cerrar } = useSesion();
+  const { sesion, cerrar, cantidadFavoritos } = useSesion();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -27,7 +27,7 @@ export default function Header({ activo, mostrarInicio = true }) {
           Alojamientos
         </Link>
         <Link to="/favoritos" className={clase("favoritos")}>
-          Favoritos
+          Favoritos{sesion && cantidadFavoritos !== null ? ` (${cantidadFavoritos})` : ""}
         </Link>
         <span id="nav-auth">
           {sesion ? (
